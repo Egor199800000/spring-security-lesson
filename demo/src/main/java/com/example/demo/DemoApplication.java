@@ -3,6 +3,7 @@ package com.example.demo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.Authentication;
@@ -34,6 +35,21 @@ public class DemoApplication {
 //				.build();
 //	}
 
+
+		@Bean
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+		return http
+				.csrf().disable() //откл csrf
+				.formLogin().and()//чтобы страничка входа работала необх ее подкл
+				.authorizeHttpRequests() // пользователь должен быть аутенфицирован
+				.requestMatchers("/public/**").permitAll()
+				.anyRequest().authenticated().and() //любой ресурс доступен только аутенфицированным пользователям
+				.exceptionHandling()
+				.authenticationEntryPoint(((request, response, authException) -> {
+				response.sendRedirect("http://localhost:8080/public/sign-in.html");
+				})).and()
+				.build();
+	}
 
 	//способ получения пользовательских данных в функциональном обработчике Http-запроса
 	@Bean
