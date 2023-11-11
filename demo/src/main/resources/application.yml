@@ -2,9 +2,18 @@ spring:
     security:
         user:
             password: password
-sql:
-    init:
-        mode: always
-        datasource:
-            url: jdbc:tc:postgresql:15:///sandbox?TC_DAEMON=true
+#sql:
+        #init:
+        #mode: always
+            #datasource:
+              #url: jdbc:tc:postgresql:15:///sandbox?TC_DAEMON=true
+
+
+            #настраиваем логирование для информативности ошибок
+             #   для этого понижаем уровень логирования-более низкоуровневые логи
+            #для отслеживания корня ошибки (почитать про уровни логирования)
+            #научиться читать логи
+logging:
+    level:
+        org.springframework.security: trace
 
